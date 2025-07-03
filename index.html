@@ -20,12 +20,70 @@
     </head>
     <body class="d-flex flex-column h-100">
         <main class="flex-shrink-0">
+            <!-- Theme Toggle Button (Dark/Light) -->
+            <div style="position: fixed; top: 18px; right: 24px; z-index: 1051;">
+                <button id="themeToggleBtn" class="btn btn-outline-dark btn-sm rounded-circle shadow" title="Changer le thème" aria-label="Changer le thème" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
+                    <i id="themeIcon" class="bi bi-moon-fill"></i>
+                </button>
+            </div>
+            <script>
+                // Theme toggle logic
+                function setTheme(theme) {
+                    const body = document.body;
+                    const navbar = document.querySelector('.navbar');
+                    const contactBtn = document.querySelector('a.btn.btn-outline-dark[href="#contact"]');
+                    if (theme === 'dark') {
+                        body.classList.add('bg-dark', 'text-white');
+                        body.classList.remove('bg-light', 'text-dark');
+                        if (navbar) {
+                            navbar.classList.remove('navbar-light', 'bg-white');
+                            navbar.classList.add('navbar-dark', 'bg-dark');
+                        }
+                        document.querySelectorAll('.card, .footer, .form-control, .bg-light').forEach(el => {
+                            el.classList.add('bg-dark', 'text-white');
+                            el.classList.remove('bg-light', 'text-dark');
+                        });
+                        if (contactBtn) {
+                            contactBtn.classList.remove('btn-outline-dark');
+                            contactBtn.classList.add('btn-light', 'text-dark');
+                        }
+                        document.getElementById('themeIcon').className = 'bi bi-sun-fill';
+                    } else {
+                        body.classList.remove('bg-dark', 'text-white');
+                        body.classList.add('bg-light', 'text-dark');
+                        if (navbar) {
+                            navbar.classList.remove('navbar-dark', 'bg-dark');
+                            navbar.classList.add('navbar-light', 'bg-white');
+                        }
+                        document.querySelectorAll('.card, .footer, .form-control, .bg-dark').forEach(el => {
+                            el.classList.remove('bg-dark', 'text-white');
+                            el.classList.add('bg-light', 'text-dark');
+                        });
+                        if (contactBtn) {
+                            contactBtn.classList.remove('btn-light', 'text-dark');
+                            contactBtn.classList.add('btn-outline-dark');
+                        }
+                        document.getElementById('themeIcon').className = 'bi bi-moon-fill';
+                    }
+                    localStorage.setItem('theme', theme);
+                }
+                // Detect and apply saved theme
+                (function() {
+                    const savedTheme = localStorage.getItem('theme') || 'light';
+                    setTheme(savedTheme);
+                })();
+                // Toggle theme on button click
+                document.getElementById('themeToggleBtn').onclick = function() {
+                    const current = localStorage.getItem('theme') === 'dark' ? 'light' : 'dark';
+                    setTheme(current);
+                };
+            </script>
             <!-- Navigation-->
             <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top shadow-sm">
                 <div class="container px-5">
                     <a class="navbar-brand d-flex align-items-center" href="index.html">
                         <img src="assets/logoconnect.png" alt="" style="height:40px;width:auto;margin-right:10px;" class="actif_logo">
-                        <span class="fw-bolder text-primary">NevyConnect</span>
+                        <span class="fw-bolder text-primary">Nevy presty</span>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
